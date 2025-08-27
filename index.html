@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://public-frontend-cos.metadl.com/mgx/img/favicon.png" type="image/png">
+    <title>💕 Ungkapan Perasaan Untukmu 💕</title>
+    <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Background Music -->
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundjay.com/misc/sounds/romantic.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Falling Hearts Background -->
+    <div class="hearts-container" id="heartsContainer"></div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Initial Screen -->
+        <div class="screen" id="welcomeScreen">
+            <div class="welcome-content">
+                <h1 class="romantic-title">💕 Ada Yang Ingin Kukatakan 💕</h1>
+                <p class="subtitle">Untuk seseorang yang spesial...</p>
+                <button class="start-btn" onclick="startConfession()">
+                    <i class="fas fa-heart"></i> Mulai
+                </button>
+            </div>
+        </div>
+
+        <!-- Name Input Screen -->
+        <div class="screen hidden" id="nameScreen">
+            <div class="name-content">
+                <h2 class="typewriter">Siapa nama lengkapmu?</h2>
+                <input type="text" id="nameInput" placeholder="Tulis namamu di sini..." class="name-input">
+                <button class="continue-btn" onclick="showConfession()">
+                    <i class="fas fa-arrow-right"></i> Lanjut
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Confession Screen -->
+        <div class="screen hidden" id="confessionScreen">
+            <div class="confession-content">
+                <h2 class="dear-name" id="dearName"></h2>
+                <div class="love-message" id="loveMessage"></div>
+                <div class="response-buttons">
+                    <button class="yes-btn" onclick="showYesResponse()">
+                        IYA ❤️
+                    </button>
+                    <button class="no-btn" id="noBtn" onclick="handleNoResponse()">
+                        Nggak 😅
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yes Response Screen -->
+        <div class="screen hidden" id="yesScreen">
+            <div class="yes-content">
+                <h1 class="celebration-title">🎉 YAYYY!!! 🎉</h1>
+                <p class="celebration-text">Aku bahagia banget! ❤️</p>
+                <div class="celebration-message">
+                    <p>Terima kasih sudah mau menjadi bagian dari hidupku</p>
+                    <p>Aku janji akan selalu menjaga hatimu 💕</p>
+                </div>
+                <div class="extra-features">
+                    <button class="feature-btn" onclick="showGallery()">
+                        <i class="fas fa-images"></i> Galeri Kenangan
+                    </button>
+                    <button class="feature-btn" onclick="showDaysCounter()">
+                        <i class="fas fa-calendar-heart"></i> Hari Bersama
+                    </button>
+                    <button class="feature-btn" onclick="showLetter()">
+                        <i class="fas fa-envelope-heart"></i> Surat Digital
+                    </button>
+                </div>
+                <div class="share-buttons">
+                    <button class="share-btn whatsapp" onclick="shareToWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> Share ke WhatsApp
+                    </button>
+                    <button class="share-btn instagram" onclick="shareToInstagram()">
+                        <i class="fab fa-instagram"></i> Share ke Instagram
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gallery Modal -->
+        <div class="modal hidden" id="galleryModal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('galleryModal')">&times;</span>
+                <h3>💕 Galeri Kenangan Kita 💕</h3>
+                <div class="gallery-grid">
+                    <div class="memory-card">
+                        <div class="memory-placeholder">📸</div>
+                        <p>Pertama kali bertemu</p>
+                    </div>
+                    <div class="memory-card">
+                        <div class="memory-placeholder">🌟</div>
+                        <p>Momen spesial pertama</p>
+                    </div>
+                    <div class="memory-card">
+                        <div class="memory-placeholder">💝</div>
+                        <p>Kenangan indah bersama</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Days Counter Modal -->
+        <div class="modal hidden" id="daysModal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('daysModal')">&times;</span>
+                <h3>⏰ Waktu Bersama Kita ⏰</h3>
+                <div class="days-counter">
+                    <div class="counter-item">
+                        <span class="counter-number" id="daysCount">0</span>
+                        <span class="counter-label">Hari</span>
+                    </div>
+                    <div class="counter-item">
+                        <span class="counter-number" id="hoursCount">0</span>
+                        <span class="counter-label">Jam</span>
+                    </div>
+                    <div class="counter-item">
+                        <span class="counter-number" id="minutesCount">0</span>
+                        <span class="counter-label">Menit</span>
+                    </div>
+                </div>
+                <p class="since-text">Sejak kita saling mengenal 💕</p>
+            </div>
+        </div>
+
+        <!-- Digital Letter Modal -->
+        <div class="modal hidden" id="letterModal">
+            <div class="modal-content letter-content">
+                <span class="close" onclick="closeModal('letterModal')">&times;</span>
+                <div class="letter-paper">
+                    <h3>💌 Surat Cinta Untukmu 💌</h3>
+                    <div class="letter-text">
+                        <p>Sayang,</p>
+                        <p>Sejak pertama kali aku mengenalmu, hidupku terasa lebih berwarna. Senyummu adalah hal pertama yang aku cari setiap hari, dan tawamu adalah musik terindah di telingaku.</p>
+                        <p>Aku mungkin bukan yang terbaik, tapi aku berjanji akan selalu berusaha menjadi yang terbaik untukmu. Setiap hari bersamamu adalah anugerah yang tak ternilai.</p>
+                        <p>Terima kasih telah hadir dalam hidupku dan menjadikan setiap hari penuh dengan kebahagiaan.</p>
+                        <p class="letter-signature">Dengan cinta,<br>Yang selalu menyayangimu ❤️</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confetti Container -->
+    <div class="confetti-container" id="confettiContainer"></div>
+
+    <!-- Floating Emojis -->
+    <div class="floating-emojis" id="floatingEmojis"></div>
+
+    <script src="./script.js"></script>
+</body>
+
+</html>
